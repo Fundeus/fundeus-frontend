@@ -1,0 +1,11 @@
+@import "Assets/styles/_variables.scss";
+
+.base-container {
+  background-color: $background-color;
+  // max-width: 2000px;
+
+  .base-content-container {
+    padding: 5rem 8rem;
+    box-sizing: border-box;
+  }
+}

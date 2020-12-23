@@ -4,8 +4,13 @@ import { Provider } from "react-redux";
 
 import reportWebVitals from "./reportWebVitals";
 
-import store from "./Configs/store";
+import "./Assets/styles/global.scss";
+
+import store from "./store";
 import AppRoutes from "./routes";
+
+const vh = window.innerHeight * 0.01;
+document.documentElement.style.setProperty("--vh", `${vh}px`);
 
 ReactDOM.render(
   <React.StrictMode>

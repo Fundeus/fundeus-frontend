@@ -3,8 +3,8 @@ import logger from "redux-logger";
 import { createBrowserHistory } from "history";
 import createSagaMiddleware from "redux-saga";
 
-import createRootReducer from "../Reducers";
-import rootSaga from "../Sagas";
+import createRootReducer from "./Reducers";
+import rootSaga from "./Sagas";
 
 const initialState = {};
 const enhancers = [];

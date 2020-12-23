@@ -4,7 +4,7 @@ import Diseases from "Components/Diseases/Diseases.component";
 
 import "./Home.styles.scss";
 
-const Home = (props) => {
+const Diagnose = (props) => {
   return (
     <div className="home-container">
       <Diseases />
@@ -12,4 +12,4 @@ const Home = (props) => {
   );
 };
 
-export default Home;
+export default Diagnose;
