@@ -8,6 +8,7 @@ const FileInput = (props) => {
   const handleFileChange = (event) => {
     console.log("handleFileChange", event, event.target.files);
   };
+
   const className = ["f-file-input", classNameFromProps]
     .filter(Boolean) // Remove falsy values from classname list to avoid redundant spaces.
     .join(" ");

@@ -6,7 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 
 import "./Assets/styles/global.scss";
 
-import store from "./store";
+import store from "./Configs/store";
 import AppRoutes from "./routes";
 
 const vh = window.innerHeight * 0.01;
@@ -24,4 +24,3 @@ ReactDOM.render(
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();

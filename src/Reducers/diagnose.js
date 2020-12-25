@@ -13,7 +13,7 @@ const initialState = {
   },
 };
 
-export default function account(state = initialState, action) {
+export default function diagnose(state = initialState, action) {
   switch (action.type) {
     case RequestConstants.GET_RESULTS_API_PENDING:
       return getResultsAPIPending(state);

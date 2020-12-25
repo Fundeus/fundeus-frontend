@@ -6,7 +6,6 @@ import HomeLayout from "Layouts/Home.layout.jsx";
 const HomeRoute = (props) => {
   const { component: Component, path } = props;
 
-  console.log(props, path);
   return (
     <HomeLayout path={path}>
       {<Route exact path={path} render={(props) => <Component {...props} />} />}

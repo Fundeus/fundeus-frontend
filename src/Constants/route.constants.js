@@ -1,6 +1,6 @@
 const routes = {
   home: "/",
-  results: "/:page",
+  results: "/diagnosis-results/:result_hash",
   about: "/about",
   concept: "/proof-of-concept",
 };

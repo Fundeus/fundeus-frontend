@@ -1,0 +1,26 @@
+@import "Assets/styles/_variables";
+
+.f-loader {
+  height: 100%;
+  @include flex();
+
+  &.big {
+    font-size: 2rem;
+  }
+
+  &.centered {
+    @include flex;
+    width: 100%;
+    height: inherit;
+  }
+
+  &.dark-theme {
+    background-color: $background-color;
+  }
+
+  .description {
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 1rem 0;
+  }
+}

@@ -1,8 +1,8 @@
 import { combineReducers } from "redux";
 
-import diagnoseCTX from "./diagnose";
+import diagnose from "./diagnose";
 
 export default (history) =>
   combineReducers({
-    diagnoseCTX,
+    diagnose,
   });

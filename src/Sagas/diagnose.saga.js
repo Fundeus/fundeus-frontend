@@ -1,25 +1,63 @@
 import { all, put, takeLatest } from "redux-saga/effects";
 
 import * as RequestConstants from "Constants/request.constants";
+import { getStatusCodeFamily, apiErrorHandler } from "Helpers/saga.helpers";
+
+import apiGenerator from "Helpers/api.helpers";
+
+import { API_ENDPOINTS, STATUS_TYPE } from "Constants/api.constants";
 
 function* diagnoseAPISaga(action) {
-  const { requestPayload } = action.payload;
-  // const api = apiGenerator("post", accessToken)(API_ENDPOINTS.LOGOUT, requestPayload);
+  const { imageURL } = action.payload;
+  const api = apiGenerator("post")(API_ENDPOINTS.UPLOAD_IMAGE, {
+    url: imageURL,
+  });
   try {
-    // yield api;
+    const response = yield api;
+    if (getStatusCodeFamily(response.status) === STATUS_TYPE.SUCCESS) {
+      yield put({
+        type: RequestConstants.DIAGNOSE_API_SUCCESS,
+        payload: response.data,
+      });
+    } else {
+      yield put({
+        type: RequestConstants.DIAGNOSE_API_FAILURE,
+        payload: apiErrorHandler({ response }),
+      });
+    }
   } catch (err) {
-    // Logout error
+    yield put({
+      type: RequestConstants.DIAGNOSE_API_FAILURE,
+      payload: apiErrorHandler(err),
+    });
   }
 }
 
 function* getResultsAPISaga(action) {
-  const { requestPayload } = action.payload;
-  // const api = apiGenerator("post", accessToken)(API_ENDPOINTS.LOGOUT, requestPayload);
+  const { hash } = action.payload;
+
+  const api = apiGenerator("get", {
+    result_hash: hash,
+  })(API_ENDPOINTS.GET_RESULT(hash));
 
   try {
-    // yield api;
+    const response = yield api;
+    if (getStatusCodeFamily(response.status) === STATUS_TYPE.SUCCESS) {
+      yield put({
+        type: RequestConstants.GET_RESULTS_API_SUCCESS,
+        payload: response.data,
+      });
+    } else {
+      yield put({
+        type: RequestConstants.GET_RESULTS_API_FAILURE,
+        payload: apiErrorHandler({ response }),
+      });
+    }
   } catch (err) {
-    // Logout error
+    yield put({
+      type: RequestConstants.GET_RESULTS_API_FAILURE,
+      payload: apiErrorHandler(err),
+    });
   }
 }
 

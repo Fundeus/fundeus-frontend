@@ -1,11 +1,13 @@
 import * as RequestConstants from "Constants/request.constants";
 
-export const DiagnoseAPI = (imageURL) => ({
-  type: RequestConstants.DIAGNOSE_API_PENDING,
-  payload: { imageURL },
-});
+export const diagnoseAPI = (imageURL) => {
+  return {
+    type: RequestConstants.DIAGNOSE_API_PENDING,
+    payload: { imageURL },
+  };
+};
 
-export const getResultsAPI = (accessToken) => ({
+export const getResultsAPI = (hash) => ({
   type: RequestConstants.GET_RESULTS_API_PENDING,
-  payload: { accessToken },
+  payload: { hash },
 });
