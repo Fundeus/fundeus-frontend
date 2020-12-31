@@ -1,0 +1,28 @@
+@import "Assets/styles/_variables.scss";
+
+.f-text-button {
+  display: inline-block;
+  border: none;
+  padding: 0;
+  margin: 0;
+  text-decoration: none;
+  background: none;
+  color: $f-gray-1;
+
+  cursor: pointer;
+  text-align: center;
+  transition: background 250ms ease-in-out, transform 150ms ease;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  outline: none;
+  &:hover,
+  &:focus,
+  &:active {
+    color: white;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+}

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 
-import { FileInput, Button, Input, Loader } from "UI";
+import { FileInput, TextButton, Input, Loader } from "UI";
 
 import "./Concept.styles.scss";
 
@@ -41,6 +41,7 @@ const Concept = (props) => {
     event.preventDefault();
 
     // onFileDrop(event);
+    console.log("handleFileChange", event, event.target.files);
 
     if (isDragActive) {
       setIsDragActive(false);
@@ -70,30 +71,49 @@ const Concept = (props) => {
     >
       {diagnose.DiagnoseCTX.status !== REQUEST_STATUS.SUCCESS ? (
         <>
-          <h1>Upload</h1>
+          <h1>Upload your fundus image</h1>
           <div className="file-input-wrapper">
-            <div
-              className={`file-drag-drop ${isDragActive ? "file-dragged" : ""}`}
-            >
-              <p>Drag & Drop</p>
-            </div>
-            <FileInput />
+            <label>
+              <input
+                type="file"
+                className="file-input"
+                aria-label="File browser"
+                onChange={handleDrop}
+              />
+              <div
+                className={`file-drag-drop ${
+                  isDragActive ? "file-dragged" : ""
+                }`}
+              >
+                <p>Drag your image here or browse</p>
+              </div>
+            </label>
             <div>
               <Input
                 value={inputURL}
+                placeHolder="www.imgur.com/123"
                 onChange={(event) => {
                   setInputURL(event.target.value);
                 }}
+                onBlur={() => {
+                  if (checkInputURL()) props.diagnoseAPI(inputURL);
+                }}
               />
-              <Button
+              {/* <Button
                 text="Diagnose"
                 onClick={() => {
                   if (checkInputURL()) props.diagnoseAPI(inputURL);
                 }}
                 disabled={inputURL === ""}
-              />
+              /> */}
             </div>
           </div>
+          <h2>Or choose an image to test</h2>
+          <div className="pre-selected-images">
+            <img src="https://i.imgur.com/Eshw0Vn.png" />
+            <img src="https://i.imgur.com/Eshw0Vn.png" />
+          </div>
+          <TextButton text="Get different Images" />
         </>
       ) : (
         <Loader big />

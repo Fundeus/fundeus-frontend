@@ -12,7 +12,7 @@ const Menu = (props) => {
       <img alt="Fundeus Logo" className="menu-logo" src={Logo} />
       <div className="menu-links">
         <Link to={routes.home}>Home</Link>
-        <Link to={routes.concept}>How it Works</Link>
+        <Link to={routes.concept}>Get Diagnosed</Link>
         <Link to={routes.about}>About</Link>
       </div>
     </div>

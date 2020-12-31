@@ -5,7 +5,7 @@ $medium-input-font-size: 1.2rem;
 $big-input-font-size: 1.5rem;
 $error-padding: 0.4rem;
 
-.vg-input {
+.f-input {
   width: 100%;
   color: white;
   .input-wrapper {
@@ -25,18 +25,20 @@ $error-padding: 0.4rem;
   input {
     background-color: transparent;
     border: 0;
-    border-bottom: 1px solid $color-main;
+    color: white;
+    font-size: 1rem;
+    border-bottom: 1px solid white;
     border-radius: 0;
-
     margin: 0;
-    min-height: 2rem;
-    outline: none;
     padding: 0;
+    outline: none;
+    min-height: 2rem;
     width: 100%;
 
     &:active,
     &:focus,
     &.error {
+      border-color: $color-main;
     }
 
     &:disabled {

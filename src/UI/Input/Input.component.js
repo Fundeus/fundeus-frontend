@@ -23,7 +23,7 @@ const Input = (props) => {
   } = props;
 
   const inputClassName = [
-    "vg-input",
+    "-input",
     className,
     hasError && "error",
     (icon || hasError) && "iconed",
@@ -37,7 +37,7 @@ const Input = (props) => {
   const inputFieldValue = inputValue !== undefined ? inputValue : value;
 
   return (
-    <div className="vg-input">
+    <div className="f-input">
       <div className="input-wrapper">
         <span className="label">{label}</span>
         <div className="input-line">
