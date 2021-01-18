@@ -1,0 +1,47 @@
+@import "Assets/styles/_variables.scss";
+
+$input-font-size: 0.8rem;
+$medium-input-font-size: 1.2rem;
+$big-input-font-size: 1.5rem;
+$error-padding: 0.4rem;
+
+.f-input {
+  width: 100%;
+  color: white;
+  .input-wrapper {
+    @include flex($justify: flex-end, $align: flex-start);
+    margin-bottom: 1rem;
+  }
+
+  .input-line {
+    width: 100%;
+    position: relative;
+  }
+
+  .label {
+    line-height: 1.4rem;
+  }
+
+  input {
+    background-color: transparent;
+    border: 0;
+    color: white;
+    font-size: 1rem;
+    border-bottom: 1px solid white;
+    border-radius: 0;
+    margin: 0;
+    padding: 0;
+    outline: none;
+    min-height: 2rem;
+    width: 100%;
+
+    &:active,
+    &:focus,
+    &.error {
+      border-color: $color-main;
+    }
+
+    &:disabled {
+    }
+  }
+}

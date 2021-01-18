@@ -1,0 +1,45 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto:100,200,300,400,500,600,700,800,900&display=swap");
+
+/* Color constants */
+$background-color: #000;
+
+$text-color-main: white;
+$color-main: #ff4a11;
+$color-disabled: gray;
+$f-gray-1: #bdbdbd;
+$f-gray-2: #bdbdbd;
+
+/* Font size constants */
+$widescreen-1-rem-size: 18px;
+$computer-1-rem-size: 17px;
+$mobile-1-rem-size: 14px;
+
+$default-font-family: futura-pt, sans-serif;
+$secondary-font-family: "Times", sans-serif;
+
+$light-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+$medium-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
+$hover-shadow: 0px 3px 4px rgba(0, 0, 0, 0.25);
+
+@mixin full-viewport-size {
+  width: 100vw;
+  height: 100vh;
+}
+
+@mixin full-content-size {
+  width: 100%;
+  height: 100%;
+}
+
+@mixin for-mobile {
+  @media (max-width: 800px) {
+    @content;
+  }
+}
+
+@mixin flex($direction: column, $justify: center, $align: center) {
+  align-items: $align;
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $justify;
+}

@@ -1,0 +1,21 @@
+@import "Assets/styles/_variables.scss";
+
+.disease {
+  @include flex($direction: row, $justify: flex-start, $align: flex-start);
+  font-family: $secondary-font-family;
+
+  h1 {
+    margin: 0 0 5rem;
+    font-size: 8rem;
+    font-weight: 700;
+  }
+  .diesase-info {
+    flex: 0.6;
+  }
+  img {
+    margin-left: 5rem;
+    flex: 0.3;
+    height: auto;
+    width: 100%;
+  }
+}

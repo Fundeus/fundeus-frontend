@@ -1,0 +1,28 @@
+@import "Assets/styles/_variables.scss";
+
+.f-button {
+  @include flex($direction: row, $justify: space-around);
+
+  background-color: $color-main;
+  border: 0;
+
+  color: white;
+  cursor: pointer;
+  font-size: 0.8rem;
+
+  line-height: 1rem;
+  min-height: 2rem;
+  outline: 0;
+  padding: 0 0.8rem;
+  width: 10rem;
+
+  /* Pseudo selectors */
+  &:hover:not(:disabled) {
+    box-shadow: $hover-shadow;
+  }
+
+  &:disabled {
+    background-color: $color-disabled;
+    cursor: default;
+  }
+}

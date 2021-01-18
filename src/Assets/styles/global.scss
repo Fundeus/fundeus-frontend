@@ -1,0 +1,20 @@
+@import "Assets/styles/_variables.scss";
+
+html {
+  background-color: $background-color;
+  color: $text-color-main;
+  font-size: $computer-1-rem-size;
+  font-family: $default-font-family;
+  @include for-mobile {
+    font-size: $mobile-1-rem-size;
+  }
+}
+
+a {
+  font-family: $default-font-family;
+}
+
+h1,
+h2 {
+  font-family: $secondary-font-family;
+}
