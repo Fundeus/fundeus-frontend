@@ -1,18 +1,43 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
+import AWS from 'aws-sdk'
 
 import { FileInput, TextButton, Input, Loader } from "UI";
-
-import "./Concept.styles.scss";
 
 import { diagnoseAPI, getResultsAPI } from "Actions/diagnose.actions";
 import { REQUEST_STATUS } from "Constants/global.constants";
 
+import "./Concept.styles.scss";
+
+// PUT THIS LOGIC TO BACKEND, NOT A GOOD PRACTICE
+AWS.config.update({
+  accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY,
+  secretAccessKey: process.env.REACT_APP_AWS_SECRET_KEY
+})
+
+const AWS_BUCKET_NAME =process.env.REACT_APP_AWS_S3_IMAGE_BUCKET_NAME;
+const AWS_BUCKET_REGION =process.env.REACT_APP_AWS_S3_IMAGE_BUCKET_REGION;
+
+const S3Bucket = new AWS.S3({
+  params: { Bucket: process.env.REACT_APP_AWS_S3_IMAGE_BUCKET_NAME},
+  region: process.env.REACT_APP_AWS_S3_IMAGE_BUCKET_REGION,
+})
+
+const BUCKET_URL = `https://${AWS_BUCKET_NAME}.s3-${AWS_BUCKET_REGION}.amazonaws.com/`;
+
+const uuid = () => {
+  return 'xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
+}
+
 const Concept = (props) => {
-  const { diagnose, history } = props;
+  const { diagnose, diagnoseAPI, history } = props;
 
   const [inputURL, setInputURL] = useState("");
   const [isDragActive, setIsDragActive] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
 
   useEffect(() => {
     if (diagnose.DiagnoseCTX.status === REQUEST_STATUS.SUCCESS) {
@@ -37,16 +62,38 @@ const Concept = (props) => {
     }
   };
 
+  const onFileInput = (event) => {
+    event.preventDefault();
+    fileInput(event.target.files);
+  }
+
   const handleDrop = (event) => {
     event.preventDefault();
 
-    // onFileDrop(event);
-    console.log("handleFileChange", event, event.target.files);
+    console.log("event", event.dataTransfer, event.target);
 
+    fileInput(event.dataTransfer.files);
+    
     if (isDragActive) {
       setIsDragActive(false);
     }
   };
+
+  const fileInput = (files) => {
+    
+    if (files.length > 1) {
+      // Error
+      return;
+    }
+    const file = files[0]
+    if(file && file.type.includes("image")) {
+      console.log("fileInput", file);
+      const uploadedFileName = uploadFile(file);
+      const imageUrl = BUCKET_URL + uploadedFileName
+      console.log(imageUrl);
+      diagnoseAPI(imageUrl)
+    }
+  }
 
   const checkInputURL = () => {
     const pattern = new RegExp(
@@ -58,9 +105,34 @@ const Concept = (props) => {
         "(\\#[-a-z\\d_]*)?$",
       "i"
     ); // fragment locator
-    // return !!pattern.test(inputURL);
-    return true;
+    return !!pattern.test(inputURL);
   };
+
+  const uploadFile = (file) => {
+    const fileName = uuid() + file.name;
+
+    const params = {
+      ACL: 'public-read',
+      Key: fileName,
+      ContentType: "application/octet-stream",
+      Body: file,
+    }
+    S3Bucket.putObject(params)
+      .on('httpUploadProgress', (evt) => {
+        // that's how you can keep track of your upload progress
+        console.log(evt.loaded / evt.total, evt)
+        setUploadProgress(Math.round((evt.loaded / evt.total) * 100))
+      })
+      .send((err, data) => {
+        console.log("err",err, data)
+         if (err) {
+           // handle the error here
+           //etag
+         }
+      });
+
+    return fileName;
+  }
 
   return (
     <div
@@ -78,25 +150,25 @@ const Concept = (props) => {
                 type="file"
                 className="file-input"
                 aria-label="File browser"
-                onChange={handleDrop}
+                onChange={onFileInput}
               />
               <div
                 className={`file-drag-drop ${
                   isDragActive ? "file-dragged" : ""
                 }`}
               >
-                <p>Drag your image here or browse</p>
+                <p>Drag your fundus image here or browse</p>
               </div>
             </label>
             <div>
               <Input
                 value={inputURL}
-                placeHolder="www.imgur.com/123"
+                placeholder="www.imgur.com/123"
                 onChange={(event) => {
                   setInputURL(event.target.value);
                 }}
                 onBlur={() => {
-                  if (checkInputURL()) props.diagnoseAPI(inputURL);
+                  if (checkInputURL()) diagnoseAPI(inputURL);
                 }}
               />
               {/* <Button
