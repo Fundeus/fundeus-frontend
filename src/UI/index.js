@@ -1,6 +1,10 @@
 export { default as Button } from "./Button/Button.component";
+export { default as CheckBox } from "./CheckBox/CheckBox.component";
+export { default as Dropdown } from "./Dropdown/Dropdown.component";
+export { default as FileInput } from "./FileInput/FileInput.component";
 export { default as Input } from "./Input/Input.component";
+export { default as Icon } from "./Icon/Icon.component";
 export { default as LinkButton } from "./LinkButton/LinkButton.component";
 export { default as Loader } from "./Loader/Loader.component";
-export { default as FileInput } from "./FileInput/FileInput.component";
+export { default as RadioInput } from "./RadioInput/RadioInput.component";
 export { default as TextButton } from "./TextButton/TextButton.component";

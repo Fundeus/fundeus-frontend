@@ -1,0 +1,81 @@
+@import "Assets/styles/_variables.scss";
+
+.f-dropdown {
+  box-sizing: border-box;
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  width: 100%;
+
+  &.disabled {
+    cursor: default;
+    opacity: 0.7;
+  }
+
+  .placeholder {
+    color: $color-disabled;
+  }
+
+  .selected {
+    @include flex($direction: row, $justify: space-between, $align: center);
+    width: 100%;
+    background-color: transparent;
+    border: 0;
+    min-width: 5rem;
+    outline: none;
+    padding-right: 0.7rem;
+
+    span {
+      margin: 0 !important;
+    }
+
+    .vg-icon {
+      width: 0.7rem;
+    }
+  }
+
+  .content {
+    background-color: rgb(59, 59, 59);
+    border-radius: 0 0 5px 5px;
+    // box-shadow: $light-shadow;
+    margin-top: 0.8rem;
+    max-height: 12rem;
+    overflow-y: auto;
+    position: absolute;
+    width: 100%;
+    z-index: 9;
+
+    .dropdown-item {
+      // color: $vg-gray-3;
+      font-size: 0.8rem;
+      // font-weight: $vg-font-weight-light;
+      margin: 0.5rem;
+      box-sizing: border-box;
+      padding: 0.5rem;
+
+      &:first-child {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+      }
+
+      &:last-child {
+        // border-bottom-left-radius: $vg-border-radius-small;
+        // border-bottom-right-radius: $vg-border-radius-small;
+      }
+
+      &:hover {
+        // background-color: $vg-gray-7;
+      }
+    }
+    &.editable {
+      margin: 0;
+      width: 100%;
+    }
+  }
+
+  .vg-input {
+    .input-wrapper {
+      margin: 0;
+    }
+  }
+}

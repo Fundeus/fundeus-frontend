@@ -1,0 +1,52 @@
+@import "Assets/styles/_variables.scss";
+
+$radio-input-radius: 6px;
+$radio-input-fill-radius: 4px;
+
+.f-radio-input {
+  @include flex($align: flex-start);
+
+  cursor: pointer;
+  position: relative;
+
+  input[type="radio"] {
+    position: absolute;
+    visibility: hidden;
+  }
+
+  label {
+    cursor: pointer;
+    font-size: 0.7rem;
+    height: 0.8rem;
+    padding-left: 1rem;
+    width: auto;
+  }
+
+  .check {
+    // border: $border-purple-main;
+    border-radius: $radio-input-radius;
+    box-sizing: border-box;
+    height: 2 * $radio-input-radius;
+    left: 0;
+    position: absolute;
+    top: calc((#{$radio-input-fill-radius}) / 2);
+    width: 2 * $radio-input-radius;
+  }
+
+  .check::before {
+    background: transparent;
+    border-radius: $radio-input-fill-radius;
+    content: "";
+    display: block;
+    height: 2 * $radio-input-fill-radius;
+    left: ($radio-input-radius - $radio-input-fill-radius) / 2;
+    margin: auto;
+    position: absolute;
+    top: ($radio-input-radius - $radio-input-fill-radius) / 2;
+    width: 2 * $radio-input-fill-radius;
+  }
+
+  input[type="radio"]:checked ~ .check::before {
+    // background: $vg-purple-main;
+  }
+}

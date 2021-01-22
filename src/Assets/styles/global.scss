@@ -8,6 +8,9 @@ html {
   @include for-mobile {
     font-size: $mobile-1-rem-size;
   }
+  @include for-wide-screen {
+    font-size: $widescreen-1-rem-size;
+  }
 }
 
 a {

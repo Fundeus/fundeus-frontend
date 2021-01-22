@@ -1,0 +1,127 @@
+@import "Assets/styles/_variables.scss";
+
+.diagnose-results-container {
+  @include flex($direction: row, $justify: center, $align: flex-start);
+  align-self: center;
+  // max-width: 1000px;
+  .img-container {
+    width: 25rem;
+    min-width: 25rem;
+    height: 25rem;
+    border-radius: 100%;
+    overflow: hidden;
+    margin-right: 10rem;
+    margin-top: 5rem;
+  }
+  img {
+    margin-right: 5rem;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  h1 {
+    font-size: 5rem;
+    line-height: 5rem;
+    white-space: nowrap;
+    margin: 0.5rem 0;
+  }
+
+  span {
+    color: $color-main;
+  }
+
+  .results {
+    max-width: 800px;
+    width: 50%;
+    .f-button {
+      margin-top: 2rem;
+    }
+    p {
+      margin-bottom: 0;
+      max-width: 35rem;
+    }
+    a {
+      white-space: nowrap;
+      color: $color-main;
+      margin: 0 1rem;
+      padding: 0;
+      font-size: 100%;
+      vertical-align: baseline;
+      background: transparent;
+    }
+    &.not-fundus {
+      margin-top: 6rem;
+
+      .info-text {
+        margin-top: 4rem;
+        max-width: 30rem;
+      }
+    }
+  }
+
+  .result-details {
+    @include flex($direction: row, $justify: space-between, $align: flex-start);
+    margin: 0 0 2.5rem;
+    max-width: 40rem;
+    white-space: nowrap;
+    .diagnosis-detail {
+      opacity: 0.3;
+      &.active {
+        opacity: 1;
+      }
+    }
+
+    h2 {
+      margin-bottom: 0;
+    }
+
+    p {
+      line-height: 3rem;
+      font-size: 4rem;
+      font-weight: 500;
+      color: $f-gray-1;
+      margin: 0.5rem;
+      text-align: center;
+    }
+  }
+
+  .history-form-results {
+    h3 {
+      margin-top: 2rem;
+      font-size: 1rem;
+      font-weight: 400;
+    }
+    p {
+      color: $f-gray-1;
+      margin-top: 0.1rem;
+    }
+    .references {
+      margin-top: 3rem;
+      color: $f-gray-1;
+      font-weight: 200;
+    }
+  }
+
+  @include for-mobile {
+    .img-container {
+      display: none;
+    }
+  }
+}
+
+.diagnose-pending {
+  @include flex($direction: column, $justify: space-between, $align: center);
+  text-align: center;
+
+  min-height: 70vh;
+  .f-loader {
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+  p {
+    margin-top: auto;
+    bottom: 1rem;
+    color: $f-gray-1;
+  }
+}

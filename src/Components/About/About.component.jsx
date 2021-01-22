@@ -30,9 +30,9 @@ const About = (props) => {
           diabetic retinopathy using fundus images by a machine learning-based
           interactive system. In detail, we proposed a decision support system
           that is easy to use, benefiting from several machine learning
-          algorithms in the background. Machine learning and deep learning
-          algorithms such as Neural Network, Resnet, gradient boost trained, and
-          tested with publicly available datasets such as Messidor and EyePACS.
+          algorithms in the background. Machine learning and deep learning based
+          algorithms are developed and tested with publicly available datasets
+          such as Kaggle, Messidor and EyePACS.
         </p>
       </div>
       <div className="about-us">

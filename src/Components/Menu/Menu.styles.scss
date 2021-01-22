@@ -7,6 +7,7 @@
 
   .menu-logo {
     margin-left: 5rem;
+    height: 3rem;
   }
   .menu-links {
     @include flex($direction: row, $align: center);
@@ -22,6 +23,9 @@
       text-decoration: none;
       &:hover {
         color: $text-color-main;
+      }
+      &.active {
+        color: white;
       }
     }
   }

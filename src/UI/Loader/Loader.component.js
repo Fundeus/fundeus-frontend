@@ -19,8 +19,8 @@ const Loader = (props) => {
   };
 
   const animationSize = {
-    height: big ? 400 : 50,
-    width: big ? 500 : 50,
+    height: big ? 200 : 50,
+    width: big ? 200 : 50,
   };
 
   const containerClassNames = [

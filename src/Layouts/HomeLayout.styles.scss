@@ -1,11 +1,16 @@
 @import "Assets/styles/_variables.scss";
 
 .base-container {
+  @include flex($direction: column, $justify: center, $align: center);
   background-color: $background-color;
-  // max-width: 2000px;
 
   .base-content-container {
-    padding: 2rem 6rem 5rem;
+    width: 100%;
+    max-width: 2000px;
+    padding: 2rem 6rem 0;
     box-sizing: border-box;
+    @include for-mobile {
+      padding: 0 0 0 4rem;
+    }
   }
 }

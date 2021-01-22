@@ -1,125 +1,249 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
+import AWS from "aws-sdk";
 
-import { Loader, Button } from "UI";
-import { diagnoseAPI, getResultsAPI } from "Actions/diagnose.actions";
-import DR from "Assets/images/fundus-01.jpg";
+import { TextButton, Input, Icon } from "UI";
 
+import {
+  diagnoseAPI,
+  getResultsAPI,
+  updatePatientForm,
+  getRandomFundusImages,
+} from "Actions/diagnose.actions";
+import { REQUEST_STATUS } from "Constants/global.constants";
+
+import HistoryForm from "./HistoryForm.component";
 import "./Diagnose.styles.scss";
-import routes from "Constants/route.constants";
 
-const DiagnosisDetail = (props) => {
-  const { disaese, result, active } = props;
+// PUT THIS LOGIC TO BACKEND, NOT A GOOD PRACTICE
+AWS.config.update({
+  accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY,
+  secretAccessKey: process.env.REACT_APP_AWS_SECRET_KEY,
+});
+
+const AWS_BUCKET_NAME = process.env.REACT_APP_AWS_S3_IMAGE_BUCKET_NAME;
+const AWS_BUCKET_REGION = process.env.REACT_APP_AWS_S3_IMAGE_BUCKET_REGION;
+
+const S3Bucket = new AWS.S3({
+  params: { Bucket: process.env.REACT_APP_AWS_S3_IMAGE_BUCKET_NAME },
+  region: process.env.REACT_APP_AWS_S3_IMAGE_BUCKET_REGION,
+});
+
+const BUCKET_URL = `https://${AWS_BUCKET_NAME}.s3-${AWS_BUCKET_REGION}.amazonaws.com/`;
+
+const uuid = () => {
+  return "xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
+    var r = (Math.random() * 16) | 0,
+      v = c == "x" ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
+};
+
+const ExampleImage = (props) => {
+  const { image, form, diagnoseAPI } = props;
   return (
-    <div className={`diagnosis-detail ${active ? "active" : ""}`}>
-      <h2>
-        {active ? "" : "Not "}
-        {disaese}
-      </h2>
-      <p>{result}%</p>
-    </div>
+    <img
+      className="example-image"
+      src={image}
+      onClick={() => diagnoseAPI(image, form)}
+    />
   );
 };
-
-const DISAEASE_DETAILS = {
-  cataract: "",
-  glaucoma: "",
-  diabeticRetinopathy:
-    "Diabetic retinopathy is a complication of diabetes, caused by high blood sugar levels damaging the back of the eye (retina). It can cause blindness if left undiagnosed and untreated.",
-};
-
-const RESULTS = [
-  "Healthy",
-  "Cataract",
-  "Glaucoma",
-  "Diabetic Retinopathy",
-  "Fundus Images",
-];
 
 const Diagnose = (props) => {
-  const { diagnose, match, history } = props;
+  const {
+    diagnose,
+    diagnoseAPI,
+    updatePatientForm,
+    getRandomFundusImages,
+    history,
+  } = props;
 
-  const hash = match.params.result_hash;
+  const [inputURL, setInputURL] = useState("");
+  const [isDragActive, setIsDragActive] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [currentPage, setCurrentPage] = useState("form");
 
   useEffect(() => {
-    props.getResultsAPI(hash);
+    getRandomFundusImages(3);
   }, []);
 
-  if (!diagnose.getResultsCTX.data) {
-    return <Loader big />;
-  }
+  useEffect(() => {
+    if (diagnose.DiagnoseCTX.status === REQUEST_STATUS.SUCCESS) {
+      const hash = diagnose.DiagnoseCTX.data.attributes.result_hash;
+      setTimeout(() => {
+        history.push("/diagnosis-results/" + hash);
+      }, 100);
+    }
+  }, [diagnose.DiagnoseCTX.status]);
 
-  const resultData = diagnose.getResultsCTX.data;
+  const handleDragOver = (event) => {
+    event.preventDefault();
+    if (!isDragActive) {
+      setIsDragActive(true);
+    }
+  };
 
-  const resultType = resultData.attributes.results;
-  let result = 0;
-  const isFundusImage = resultType.fundus;
-  if (resultType.cat && parseInt(resultType.cat, 10) == 1) {
-    result = 1;
-  } else if (resultType.gl && parseInt(resultType.gl, 10) == 0) {
-    result = 2;
-  } else if (resultType.dr && parseInt(resultType.dr, 10) == 0) {
-    result = 3;
-  }
-  const mostLikely = RESULTS[result];
-  console.log(
-    parseInt(resultType.cat, 10),
-    parseInt(resultType.gl, 10),
-    parseInt(resultType.dr, 10),
-    result
-  );
+  const handleDragLeave = (event) => {
+    event.preventDefault();
+    if (isDragActive) {
+      setIsDragActive(false);
+    }
+  };
 
-  console.log(props, hash, isFundusImage);
-  return (
-    <div className="diagnose-container">
-      {/* <Loader big /> */}
-      <img
-        alt="Image uploaded by user"
-        className="diesase-img"
-        src={resultData.attributes.image_url}
+  const onFileInput = (event) => {
+    event.preventDefault();
+    fileInput(event.target.files);
+  };
+
+  const handleDrop = (event) => {
+    event.preventDefault();
+
+    console.log("event", event.dataTransfer, event.target);
+
+    fileInput(event.dataTransfer.files);
+
+    if (isDragActive) {
+      setIsDragActive(false);
+    }
+  };
+
+  const fileInput = (files) => {
+    if (files.length > 1) {
+      // Error
+      return;
+    }
+    const file = files[0];
+    if (file && file.type.includes("image")) {
+      console.log("fileInput", file);
+      uploadFile(file);
+    }
+  };
+
+  const checkInputURL = () => {
+    const pattern = new RegExp(
+      "^(https?:\\/\\/)?" + // protocol
+        "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
+        "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
+        "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
+        "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
+        "(\\#[-a-z\\d_]*)?$",
+      "i"
+    ); // fragment locator
+    return !!pattern.test(inputURL);
+  };
+
+  const uploadFile = (file) => {
+    const fileName = uuid() + file.name;
+
+    const imageUrl = BUCKET_URL + fileName;
+    console.log(imageUrl);
+
+    const params = {
+      ACL: "public-read",
+      Key: fileName,
+      ContentType: "application/octet-stream",
+      Body: file,
+    };
+    S3Bucket.putObject(params)
+      .on("httpUploadProgress", (evt) => {
+        // that's how you can keep track of your upload progress
+        console.log(evt.loaded / evt.total, evt);
+        setUploadProgress(Math.round((evt.loaded / evt.total) * 100));
+      })
+      .send((err, data) => {
+        console.log("err", err, data);
+        if (!err) {
+          getResults(imageUrl);
+        }
+      });
+
+    return fileName;
+  };
+
+  const getResults = (imageUrl) => {
+    if (diagnose.DiagnoseCTX.status !== REQUEST_STATUS.PENDING) {
+      diagnoseAPI(imageUrl, diagnose.patientFormCTX);
+    }
+  };
+
+  if (currentPage === "form") {
+    return (
+      <HistoryForm
+        updatePatientForm={updatePatientForm}
+        patientFormCTX={diagnose.patientFormCTX}
+        onNextButton={() => setCurrentPage("image-upload")}
       />
-      {isFundusImage ? (
-        <div className="results">
-          <p>You are most likely to be</p>
-          <h1>{mostLikely}</h1>
-          <div className="result-details">
-            <DiagnosisDetail
-              disaese="Cataract"
-              result="83"
-              active={result === 1}
+    );
+  }
+
+  return (
+    <div
+      className="diagnose-container"
+      onDragOver={handleDragOver}
+      onDragLeave={handleDragLeave}
+      onDrop={handleDrop}
+    >
+      <>
+        <h1>Upload your fundus image</h1>
+        <div className="file-input-wrapper">
+          <label>
+            <input
+              type="file"
+              className="file-input"
+              aria-label="File browser"
+              onChange={onFileInput}
             />
-            <DiagnosisDetail
-              disaese="Glaucoma"
-              result="73"
-              active={result === 2}
+            <div
+              className={`file-drag-drop ${isDragActive ? "file-dragged" : ""}`}
+            >
+              <Icon name="file-drag" />
+              <p>Drag your fundus image here or browse</p>
+            </div>
+          </label>
+          {uploadProgress > 0 && (
+            <div class="meter animate">
+              <span style={{ width: `${uploadProgress}%` }}></span>
+              <p>{uploadProgress}%</p>
+            </div>
+          )}
+          <div className="url-input">
+            <Input
+              value={inputURL}
+              placeholder="www.imgur.com/123"
+              onChange={(event) => {
+                setInputURL(event.target.value);
+              }}
+              onBlur={() => {
+                if (checkInputURL()) getResults(inputURL);
+              }}
             />
-            <DiagnosisDetail
-              disaese="Diabetic Retinopathy"
-              result="70"
-              active={result === 3}
-            />
+            {/* <Button
+                text="Diagnose"
+                onClick={() => {
+                  if (checkInputURL()) props.diagnoseAPI(inputURL);
+                }}
+                disabled={inputURL === ""}
+              /> */}
           </div>
-          <p>
-            {DISAEASE_DETAILS.diabeticRetinopathy}
-            <span> Learn More </span>
-          </p>
         </div>
-      ) : (
-        <div className="results">
-          <p>Nice try, but the system only accepts</p>
-          <h1>Fundus Images</h1>
-          <div className="">
-            <p>
-              This is an eye diseases diagnosing system; therefore, The image
-              you uploaded should be a Fundus Image, so please upload one.
-            </p>
-          </div>
-          <Button
-            text="Get Diagnosed"
-            onClick={() => history.push(routes.concept)}
-          />
+        <h2>Or choose an image to test</h2>
+        <div className="pre-selected-images">
+          {diagnose.fundusImagesCTX.selectedImages.map((url) => (
+            <ExampleImage
+              key={url}
+              diagnoseAPI={diagnoseAPI}
+              form={diagnose.patientFormCTX}
+              image={url}
+              history={history}
+            />
+          ))}
         </div>
-      )}
+        <TextButton
+          text="Get different Images"
+          onClick={() => getRandomFundusImages(3)}
+        />
+      </>
     </div>
   );
 };
@@ -131,7 +255,10 @@ const mapStateToProps = (state) => {
 };
 
 const actionCreators = {
+  diagnoseAPI,
   getResultsAPI,
+  updatePatientForm,
+  getRandomFundusImages,
 };
 
 export default connect(mapStateToProps, actionCreators)(Diagnose);

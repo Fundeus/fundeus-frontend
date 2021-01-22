@@ -1,0 +1,37 @@
+@import "Assets/styles/_variables.scss";
+
+.f-icon {
+  height: 2rem;
+  outline: none;
+  position: relative;
+  width: 2rem;
+
+  * {
+    fill: $f-gray-1;
+  }
+
+  &.red {
+    * {
+      fill: $color-main;
+    }
+  }
+
+  &.clickable,
+  &[role="button"] {
+    cursor: pointer;
+  }
+
+  &.loader {
+    @keyframes loader-ring {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    animation: loader-ring 1.2s linear infinite;
+  }
+}

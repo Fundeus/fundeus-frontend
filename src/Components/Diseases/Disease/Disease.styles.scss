@@ -2,20 +2,52 @@
 
 .disease {
   @include flex($direction: row, $justify: flex-start, $align: flex-start);
-  font-family: $secondary-font-family;
+  // font-family: $secondary-font-family;
+  height: 50vh;
+
+  min-height: 30rem;
+  margin: 1rem 5rem 0;
+  // box-sizing: border-box;
 
   h1 {
-    margin: 0 0 5rem;
-    font-size: 8rem;
+    margin: 0 0 4rem;
+    // height: 12rem;
+    line-height: 5.5rem;
+    font-size: 5.5rem;
     font-weight: 700;
   }
   .diesase-info {
+    @include flex($direction: column, $justify: flex-start, $align: flex-start);
+    margin-left: auto;
+    height: 100%;
     flex: 0.6;
+    p {
+      font-size: 1.2rem;
+      font-weight: 400;
+      width: 60%;
+      min-width: 400px;
+      margin-bottom: 2rem;
+      color: $f-gray-2;
+    }
+    .diesase-action {
+      margin-top: 1rem;
+    }
   }
   img {
-    margin-left: 5rem;
+    margin-right: auto;
     flex: 0.3;
-    height: auto;
-    width: 100%;
+    max-width: 30%;
+    height: 80%;
+    width: auto;
+    object-fit: contain;
+  }
+
+  @media (max-width: 1200px) {
+    img {
+      display: none !important;
+    }
+    .diesase-info {
+      margin-left: unset;
+    }
   }
 }

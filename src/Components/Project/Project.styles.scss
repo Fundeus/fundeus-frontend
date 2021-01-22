@@ -1,0 +1,27 @@
+@import "Assets/styles/_variables.scss";
+
+.project-container {
+  @include flex($direction: column, $justify: center, $align: center);
+
+  .project-info {
+    width: 60%;
+    h1 {
+      margin-top: 0;
+      text-align: center;
+    }
+
+    p {
+      color: $f-gray-2;
+    }
+  }
+  .video-container {
+    @include flex($direction: row, $justify: center, $align: center);
+    margin-top: 2rem;
+  }
+  @include for-mobile {
+    flex-direction: column;
+    .project-info {
+      width: 60%;
+    }
+  }
+}

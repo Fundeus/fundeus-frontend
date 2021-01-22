@@ -23,7 +23,7 @@ const Input = (props) => {
   } = props;
 
   const inputClassName = [
-    "-input",
+    "f-input",
     className,
     hasError && "error",
     (icon || hasError) && "iconed",

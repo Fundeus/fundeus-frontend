@@ -1,47 +1,150 @@
 @import "Assets/styles/_variables.scss";
 
-.diagnose-container {
-  @include flex($direction: row, $justify: center, $align: flex-start);
-  align-self: center;
-  // max-width: 1000px;
-  img {
-    margin-right: 5rem;
+.file-drag-drop {
+  @include flex;
+  width: 100%;
+  height: 12rem;
+  margin-bottom: 1rem;
+  box-sizing: border-box;
+  color: $f-gray-1;
+  border: 2px dashed rgb(207, 147, 147);
+  border-radius: 10px;
+  opacity: 0.8;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 1;
+    border-color: $f-gray-1;
+    color: $f-gray-1;
   }
+
+  &.file-dragged {
+    border-color: $color-main;
+  }
+}
+
+.diagnose-container {
+  @include flex;
 
   h1 {
-    font-size: 5rem;
-    margin: 0.5rem 0;
+    font-size: 1.5rem;
+    margin: 0;
+  }
+  h2 {
+    margin: 2rem 0;
+    font-size: 1.3rem;
   }
 
-  span {
-    color: $color-main;
-  }
-
-  .results {
-    max-width: 800px;
-  }
-
-  .result-details {
-    @include flex($direction: row, $justify: space-between, $align: flex-start);
-    margin: 2.5rem 0;
-    .diagnosis-detail {
-      opacity: 0.3;
-      &.active {
-        opacity: 1;
-      }
-    }
-
-    p {
-      font-size: 4rem;
-      font-weight: 500;
-      color: $f-gray-1;
-      margin: 0.5rem;
-    }
-  }
-
-  @include for-mobile {
+  .pre-selected-images {
     img {
-      display: none;
+      width: 10rem;
+      height: auto;
     }
+  }
+
+  .f-text-button {
+    font-size: 0.9rem;
+    margin-top: 2rem;
+  }
+
+  .url-input {
+    margin-top: 1rem;
+  }
+
+  .example-image {
+    cursor: pointer;
+  }
+}
+
+.file-input-wrapper {
+  max-width: 30rem;
+  width: 100%;
+  min-width: 300px;
+
+  .file-input {
+    height: 0;
+  }
+}
+
+.progress-bar {
+  height: 1rem;
+  text-align: center;
+  border-radius: 5px;
+  background-color: red;
+}
+
+.meter {
+  height: 10px; /* Can be anything */
+  position: relative;
+  // background: #555;
+  -moz-border-radius: 25px;
+  -webkit-border-radius: 25px;
+  border-radius: 25px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  p {
+    margin: 0 0 0 1rem;
+    display: block;
+  }
+}
+
+.meter > span {
+  display: block;
+  height: 100%;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  background-color: #f0a3a3;
+  background-image: linear-gradient(to bottom, #f07e5a, $color-main);
+  box-shadow: inset 0 2px 9px rgba(255, 255, 255, 0.3),
+    inset 0 -2px 6px rgba(0, 0, 0, 0.4);
+  position: relative;
+  overflow: hidden;
+}
+
+.meter > span:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-image: linear-gradient(
+    -45deg,
+    rgba(255, 255, 255, 0.2) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0.2) 75%,
+    transparent 75%,
+    transparent
+  );
+  z-index: 1;
+  background-size: 50px 50px;
+  animation: move 2s linear infinite;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  overflow: hidden;
+}
+
+// .animate > span:after {
+//   display: none;
+// }
+
+.meter > span:after,
+.animate > span > span {
+  animation: move 2s linear infinite;
+}
+
+@keyframes move {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 50px 50px;
   }
 }

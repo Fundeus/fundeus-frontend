@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import { Button } from "UI";
 
 import "./Disease.styles.scss";
-import DR from "Assets/images/fundus-01.jpg";
 
 const Diseases = (props) => {
   const { name, image, text, onAction } = props;
@@ -16,7 +15,7 @@ const Diseases = (props) => {
           <Button text="Get Diagnosed" onClick={onAction} />
         </div>
       </div>
-      <img alt="Fundeus Logo" className="diesase-img" src={DR} />
+      <img alt="Fundeus Logo" className="diesase-img" src={image} />
     </div>
   );
 };

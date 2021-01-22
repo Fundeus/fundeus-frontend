@@ -8,10 +8,13 @@ import apiGenerator from "Helpers/api.helpers";
 import { API_ENDPOINTS, STATUS_TYPE } from "Constants/api.constants";
 
 function* diagnoseAPISaga(action) {
-  const { imageURL } = action.payload;
+  const { imageURL, form, retry } = action.payload;
+
   const api = apiGenerator("post")(API_ENDPOINTS.UPLOAD_IMAGE, {
     url: imageURL,
+    form: JSON.stringify(form),
   });
+
   try {
     const response = yield api;
     if (getStatusCodeFamily(response.status) === STATUS_TYPE.SUCCESS) {
@@ -30,6 +33,12 @@ function* diagnoseAPISaga(action) {
       type: RequestConstants.DIAGNOSE_API_FAILURE,
       payload: apiErrorHandler(err),
     });
+    if (!retry) {
+      yield put({
+        type: RequestConstants.DIAGNOSE_API_PENDING,
+        payload: { imageURL, form, retry: true },
+      });
+    }
   }
 }
 
@@ -43,6 +52,7 @@ function* getResultsAPISaga(action) {
   try {
     const response = yield api;
     if (getStatusCodeFamily(response.status) === STATUS_TYPE.SUCCESS) {
+      console.log("response.data", response.data);
       yield put({
         type: RequestConstants.GET_RESULTS_API_SUCCESS,
         payload: response.data,

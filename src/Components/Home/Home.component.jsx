@@ -9,7 +9,7 @@ const Home = (props) => {
   const { history } = props;
 
   const handleGetDiagnose = (event) => {
-    history.push(routes.concept);
+    history.push(routes.getDiagnosed);
   };
 
   return (

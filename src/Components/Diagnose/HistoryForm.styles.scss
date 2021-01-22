@@ -1,0 +1,46 @@
+@import "Assets/styles/_variables.scss";
+
+.history-form {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 600px;
+  color: $f-gray-1;
+  font-weight: 400;
+  font-size: 0.9rem;
+  h2 {
+    margin-top: 0;
+    color: white;
+    text-align: center;
+  }
+  p:not(.info) {
+    color: white;
+    font-weight: 500;
+  }
+  .break {
+    height: 0.5rem;
+  }
+  .form-row {
+    @include flex($direction: row, $justify: space-between, $align: center);
+    white-space: nowrap;
+    .f-input {
+      width: 5rem;
+      margin-left: 1rem;
+      margin-right: auto;
+      line-height: 1.5rem;
+    }
+    .f-dropdown {
+      width: 10rem;
+      margin-left: 1rem;
+      .f-icon {
+        height: 0.7rem;
+      }
+    }
+    @include for-mobile {
+      flex-direction: column;
+    }
+  }
+  .f-button {
+    margin-top: 4rem;
+    margin-left: auto;
+  }
+}
