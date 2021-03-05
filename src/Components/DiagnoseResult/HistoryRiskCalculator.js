@@ -86,10 +86,10 @@ export const GetReferences = (tags, disease) => {
     refs = [
       tags[TAGS.highHaemoglobin] &&
         "Yau J, Rogers S, Kawasaki R, Lamoureux E, Kowalski J, Bek T, et al. Global prevalence and major risk factors of diabetic retinopathy. Diabetes Care. 2012;35:556–64.",
-      tags[TAGS.highBloodPressure] &&
-        "Yau J, Rogers S, Kawasaki R, Lamoureux E, Kowalski J, Bek T, et al. Global prevalence and major risk factors of diabetic retinopathy. Diabetes Care. 2012;35:556–64.",
-      tags[TAGS.inconsistentSugarBloods] &&
-        "Yau J, Rogers S, Kawasaki R, Lamoureux E, Kowalski J, Bek T, et al. Global prevalence and major risk factors of diabetic retinopathy. Diabetes Care. 2012;35:556–64.",
+      // tags[TAGS.highBloodPressure] &&
+      //   "Yau J, Rogers S, Kawasaki R, Lamoureux E, Kowalski J, Bek T, et al. Global prevalence and major risk factors of diabetic retinopathy. Diabetes Care. 2012;35:556–64.",
+      // tags[TAGS.inconsistentSugarBloods] &&
+      //   "Yau J, Rogers S, Kawasaki R, Lamoureux E, Kowalski J, Bek T, et al. Global prevalence and major risk factors of diabetic retinopathy. Diabetes Care. 2012;35:556–64.",
     ];
   }
   return refs.filter(Boolean);

@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 import reportWebVitals from "./reportWebVitals";
 
 import "./Assets/styles/global.scss";
+import "./Assets/fontawesome/css/all.min.css";
 
 import store from "./Configs/store";
 import AppRoutes from "./routes";

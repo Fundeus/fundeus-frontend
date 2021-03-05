@@ -1,3 +1,5 @@
+@import "Assets/styles/_variables.scss";
+
 /* Slider */
 .slick-slider {
   position: relative;
@@ -150,6 +152,9 @@ $slick-opacity-not-active: 0.25 !default;
     color: transparent;
 
     opacity: $slick-opacity-on-hover;
+  }
+  @include for-mobile {
+    display: none !important;
   }
 }
 

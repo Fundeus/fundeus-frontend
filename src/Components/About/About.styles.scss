@@ -2,9 +2,6 @@
 
 .about-container {
   @include flex($direction: row, $justify: flex-start, $align: flex-start);
-  @include for-mobile {
-    flex-direction: column;
-  }
   .about-info {
     flex: 0.5;
     font-family: futura-pt, sans-serif;
@@ -51,8 +48,13 @@
     }
   }
   @include for-mobile {
-    width: 100%;
+    width: 90%;
+    flex-direction: column;
+    margin: 2rem;
     .about-info {
+      h1 {
+        font-size: 4rem;
+      }
       p {
         width: 100%;
       }

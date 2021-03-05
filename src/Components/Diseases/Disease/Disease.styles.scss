@@ -2,7 +2,6 @@
 
 .disease {
   @include flex($direction: row, $justify: flex-start, $align: flex-start);
-  // font-family: $secondary-font-family;
   height: 50vh;
 
   min-height: 30rem;
@@ -48,6 +47,20 @@
     }
     .diesase-info {
       margin-left: unset;
+    }
+  }
+
+  @include for-mobile {
+    margin: 3rem;
+    height: 60vh;
+    h1 {
+      font-size: 3rem;
+    }
+    .diesase-info {
+      p {
+        width: 100%;
+        min-width: 2rem;
+      }
     }
   }
 }

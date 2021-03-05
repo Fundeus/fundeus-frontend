@@ -1,8 +1,7 @@
 @import "Assets/styles/_variables.scss";
 
 .history-form {
-  margin-left: auto;
-  margin-right: auto;
+  margin: 3rem auto;
   max-width: 600px;
   color: $f-gray-1;
   font-weight: 400;
@@ -22,6 +21,9 @@
   .form-row {
     @include flex($direction: row, $justify: space-between, $align: center);
     white-space: nowrap;
+    .row-item {
+      @include flex($direction: row, $justify: space-between, $align: center);
+    }
     .f-input {
       width: 5rem;
       margin-left: 1rem;
@@ -37,6 +39,7 @@
     }
     @include for-mobile {
       flex-direction: column;
+      align-items: flex-start;
     }
   }
   .f-button {

@@ -43,7 +43,7 @@ function* diagnoseAPISaga(action) {
 }
 
 function* getResultsAPISaga(action) {
-  const { hash } = action.payload;
+  const { hash, tryNumber = 0 } = action.payload;
 
   const api = apiGenerator("get", {
     result_hash: hash,
@@ -51,6 +51,7 @@ function* getResultsAPISaga(action) {
 
   try {
     const response = yield api;
+    console.log("getResultsAPISaga", response);
     if (getStatusCodeFamily(response.status) === STATUS_TYPE.SUCCESS) {
       console.log("response.data", response.data);
       yield put({
@@ -62,8 +63,20 @@ function* getResultsAPISaga(action) {
         type: RequestConstants.GET_RESULTS_API_FAILURE,
         payload: apiErrorHandler({ response }),
       });
+      if (tryNumber < 3) {
+        yield put({
+          type: RequestConstants.GET_RESULTS_API_PENDING,
+          payload: { hash, tryNumber: tryNumber + 1 },
+        });
+      }
     }
   } catch (err) {
+    if (tryNumber < 3) {
+      yield put({
+        type: RequestConstants.GET_RESULTS_API_PENDING,
+        payload: { hash, tryNumber: tryNumber + 1 },
+      });
+    }
     yield put({
       type: RequestConstants.GET_RESULTS_API_FAILURE,
       payload: apiErrorHandler(err),

@@ -32,28 +32,29 @@ const HistoryForm = (props) => {
       <h2>Patient History Form</h2>
       <p className="info">Fill the form or click next to skip it.</p>
       <div className="form-row">
-        <p>Your Age:</p>
-        <Input
-          min="2"
-          max="99"
-          value={patientFormCTX.age}
-          placeholder="Age"
-          onChange={(event) => {
-            updatePatientForm({ age: event.target.value });
-          }}
-          // onBlur={() => {
-          //   if (checkInputURL()) diagnoseAPI(inputURL);
-          // }}
-          type="number"
-        />
-        <p>Your Sex:</p>
-        <Dropdown
-          placeholder="Female/Male"
-          options={["Female", "Male"]}
-          handleSelectedOptionChange={(sex) => {
-            updatePatientForm({ sex });
-          }}
-        />
+        <div className="row-item">
+          <p>Your Age:</p>
+          <Input
+            min="2"
+            max="99"
+            value={patientFormCTX.age}
+            placeholder="Age"
+            onChange={(event) => {
+              updatePatientForm({ age: event.target.value });
+            }}
+            type="number"
+          />
+        </div>
+        <div className="row-item">
+          <p>Your Sex:</p>
+          <Dropdown
+            placeholder="Female/Male"
+            options={["Female", "Male"]}
+            handleSelectedOptionChange={(sex) => {
+              updatePatientForm({ sex });
+            }}
+          />
+        </div>
       </div>
       <p>
         Select one or more of the following racial categories as appropriate for

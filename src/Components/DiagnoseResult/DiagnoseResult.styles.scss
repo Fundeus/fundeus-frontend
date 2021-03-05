@@ -104,6 +104,29 @@
   }
 
   @include for-mobile {
+    h1 {
+      font-size: 3rem;
+      white-space: normal;
+    }
+    .results {
+      width: 90%;
+      margin-top: 2rem;
+    }
+    .result-details {
+      .diagnosis-detail {
+        h2 {
+          font-size: 1rem;
+        }
+        p {
+          font-size: 2rem;
+        }
+      }
+    }
+    .history-form-results {
+      p {
+        margin: 0.5rem 0;
+      }
+    }
     .img-container {
       display: none;
     }

@@ -29,9 +29,9 @@ const Project = (props) => {
           width="760"
           height="315"
           src="https://www.youtube.com/embed/N3AqG7vH0zU"
-          frameborder="0"
+          frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen="true"
+          allowFullScreen="true"
         />
       </div>
       <div className="about-us"></div>

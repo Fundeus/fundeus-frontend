@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { connect } from "react-redux";
 import _ from "lodash";
 import { Loader, Button } from "UI";
@@ -7,6 +7,7 @@ import { GetHistoryResults, GetReferences } from "./HistoryRiskCalculator.js";
 
 import "./DiagnoseResult.styles.scss";
 import routes from "Constants/route.constants";
+import { REQUEST_STATUS } from "Constants/global.constants.js";
 
 const DISAEASE_DETAILS = {
   0: "Fundeus shouldn't be solely used for treatment without consulting an ophthalmologist. The system is best for use as a decision support system.",
@@ -40,12 +41,19 @@ const DiagnosisDetail = (props) => {
 };
 
 const DiagnoseResult = (props) => {
-  const { diagnose, match, history } = props;
+  const { diagnose, getResultsAPI, match, history } = props;
+
+  const refReshTimeout = useRef(null);
 
   const hash = match.params.result_hash;
 
   useEffect(() => {
-    props.getResultsAPI(hash);
+    getResultsAPI(hash);
+    refReshTimeout.current = setTimeout(() => getResultsAPI(hash), 30000);
+
+    return () => {
+      clearTimeout(refReshTimeout.current);
+    };
   }, []);
 
   if (!diagnose.getResultsCTX.data) {
@@ -139,7 +147,7 @@ const DiagnoseResult = (props) => {
                 {RESULTS[result]}:
               </h3>
               {historyResults.map((result) => (
-                <p>{result}</p>
+                <p key={result}>{result}</p>
               ))}
               <div className="references">{GetReferences(tags, result)}</div>
             </div>
